@@ -1,7 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+// admin
+// guest
+
+const routes: Routes = [
+  // login
+
+  // dashboard
+  // hotels
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
