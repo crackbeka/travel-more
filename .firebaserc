@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "travel-more-8cd9a": {
+      "hosting": {
+        "travel-more": [
+          "travel-more-8cd9a"
+        ]
+      }
+    }
+  }
+}
