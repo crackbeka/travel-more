@@ -1,6 +1,10 @@
-<form [formGroup]="form" (ngSubmit)="login()">
-  <input type="email" formControlName="email" />
-  <input type="password" formControlName="password" />
+<h1 class="display-4">Login</h1>
 
-  <button>Login</button>
+<form [formGroup]="form" (ngSubmit)="login()">
+  <label>Email address</label>
+  <input id="email" class="form-control" type="email" formControlName="email" [ngClass]="{'is-invalid': form.controls.email.invalid && (form.controls.email.dirty || form.controls.email.touched)}" />
+  <label>Password</label>
+  <input id="password" class="form-control" type="password" formControlName="password" [ngClass]="{'is-invalid': form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched)}" />
+
+  <button class="btn btn-primary">Login</button>
 </form>
