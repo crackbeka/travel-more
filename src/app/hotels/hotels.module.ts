@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HotelsRoutingModule } from './hotels-routing.module';
 import { HotelListComponent } from './components/hotel-list/hotel-list.component';
 
-
 @NgModule({
   declarations: [
     HotelListComponent

@@ -8,31 +8,52 @@
       Add Hotel
     </div>
     <label>Hotel Name</label>
-    <input id="name" class="form-control" type="text" />
+    <input id="name" class="form-control" [(ngModel)]="hotelForm.name" type="text" />
     <label>City</label>
-    <input id="city" class="form-control" type="text" />
+    <input id="city" class="form-control" [(ngModel)]="hotelForm.city" type="text" />
     <label>Address</label>
-    <input id="address" class="form-control" type="text" />
+    <input id="address" class="form-control" [(ngModel)]="hotelForm.address" type="text" />
     <label>Kids Policy</label>
-    <input id="kids" class="form-control" type="text" />
+    <input id="kids" class="form-control" [(ngModel)]="hotelForm.kids" type="text" />
     <label>Stars</label>
-    <input id="stars" class="form-control" type="number" />
+    <input id="stars" class="form-control" [(ngModel)]="hotelForm.stars" type="number" />
     <div class="row">
       <div class="col">
         <label>Fitness</label>
-        <input id="stars" class="form-check-input" type="checkbox" />
+        <input id="stars" class="form-check-input" [(ngModel)]="hotelForm.fitness" [ngModelOptions]="{standalone: true}"
+          type="checkbox" />
         <label>Free Wifi</label>
-        <input id="stars" class="form-check-input" type="checkbox" />
+        <input id="stars" class="form-check-input" [(ngModel)]="hotelForm.wifi" [ngModelOptions]="{standalone: true}"
+          type="checkbox" />
         <label>Parking</label>
-        <input id="stars" class="form-check-input" type="checkbox" />
+        <input id="stars" class="form-check-input" [(ngModel)]="hotelForm.parking" [ngModelOptions]="{standalone: true}"
+          type="checkbox" />
       </div>
       <div class="col">
         <label>Restaurant</label>
-        <input id="stars" class="form-check-input" type="checkbox" />
+        <input id="stars" class="form-check-input" [(ngModel)]="hotelForm.restaurant"
+          [ngModelOptions]="{standalone: true}" type="checkbox" />
         <label>Pool</label>
-        <input id="stars" class="form-check-input" type="checkbox" />
+        <input id="stars" class="form-check-input" [(ngModel)]="hotelForm.pool" [ngModelOptions]="{standalone: true}"
+          type="checkbox" />
         <label>Sauna</label>
-        <input id="stars" class="form-check-input" type="checkbox" />
+        <input id="stars" class="form-check-input" [(ngModel)]="hotelForm.sauna" [ngModelOptions]="{standalone: true}"
+          type="checkbox" />
+      </div>
+    </div>
+    <label for="imgUpload" class="btn btn-primary" style="align-self: flex-start;">
+      Upload Images
+      <input id="imgUpload" style="display: none;" type="file" class="text-nowrap text-truncate"
+        (change)="selectFile($event)" multiple />
+    </label>
+    <div class="row">
+      <div class="col-2" *ngFor="let img of hotelForm.images; let i = index">
+        <div class="image-preview"
+          [ngStyle]="{'background': 'url('+img.url+')', 'background-size': 'cover', 'background-position': 'center'}">
+          <div class="image-remove" (click)="deleteImage(i)">
+            x
+          </div>
+        </div>
       </div>
     </div>
     <button type="button" class="btn btn-primary" (click)="save()">Save</button>
