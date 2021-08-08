@@ -17,4 +17,6 @@ export class HotelListComponent implements OnInit {
     this.modalState = !this.modalState;
   }
 
+  save() {}
+
 }

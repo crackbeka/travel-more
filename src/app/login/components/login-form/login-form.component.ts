@@ -6,28 +6,42 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrls: ['./login-form.component.css']
+  styleUrls: ['./login-form.component.css'],
 })
 export class LoginFormComponent implements OnInit {
   form!: FormGroup;
 
-  constructor(private fb: FormBuilder, private auth: AngularFireAuth, private router: Router) { }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AngularFireAuth,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.form = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
-  };
+  }
 
   login(): void {
     if (!this.form.valid) {
       return;
     }
 
-    this.auth.signInWithEmailAndPassword(this.form.value.email, this.form.value.password).then(() => {
-      this.router.navigate(['dashboard']);
-    });
+    this.auth
+      .signInWithEmailAndPassword(
+        this.form.value.email,
+        this.form.value.password
+      )
+      .then(() => {
+        this.router.navigate(['dashboard']);
+      });
   }
 
+  isInvalid(controlName: string, validation?: string): boolean | undefined {
+    const control = this.form.get(controlName);
+    const invalid = !control?.valid && (control?.dirty || control?.touched);
+    return validation ? invalid && control?.hasError(validation) : invalid;
+  }
 }

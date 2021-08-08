@@ -1,10 +1,65 @@
-<h1 class="display-4">Login</h1>
+<div class="flex flex-col justify-center min-h-screen py-12 bg-gray-50 sm:px-6 lg:px-8">
+  <div class="sm:mx-auto sm:w-full sm:max-w-md">
+    <img class="w-auto h-12 mx-auto" src="/assets/images/logo.png" alt="Workflow" />
+    <h2 class="mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900">
+      Sign in to your account
+    </h2>
+    <p class="mt-2 text-sm leading-5 text-center text-gray-600 max-w">
+      Or
+      <a routerLink="/register" class="font-medium text-indigo-600 transition duration-150 ease-in-out hover:text-indigo-500 focus:outline-none focus:underline">
+        create new account now
+      </a>
+    </p>
+  </div>
 
-<form [formGroup]="form" (ngSubmit)="login()">
-  <label>Email address</label>
-  <input id="email" class="form-control" type="email" formControlName="email" [ngClass]="{'is-invalid': form.controls.email.invalid && (form.controls.email.dirty || form.controls.email.touched)}" />
-  <label>Password</label>
-  <input id="password" class="form-control" type="password" formControlName="password" [ngClass]="{'is-invalid': form.controls.password.invalid && (form.controls.password.dirty || form.controls.password.touched)}" />
+  <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+    <div class="px-4 py-8 bg-white shadow sm:rounded-lg sm:px-10">
+      <form [formGroup]="form" (ngSubmit)="login()">
+        <div class="mt-6">
+          <label for="email" class="block text-sm font-medium leading-5 text-gray-700">
+            Email address
+          </label>
 
-  <button class="btn btn-primary">Login</button>
-</form>
+          <div class="relative mt-1 rounded-md shadow-sm">
+            <input autocomplete="email" id="email" type="email" formControlName="email" [ngClass]="{ 'border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:shadow-outline-red': isInvalid('email'), 'border-gray-300 placeholder-gray-400 focus:shadow-outline-blue focus:border-blue-300': !isInvalid('email') }" required class="block w-full px-3 py-2 pr-10 transition duration-150 ease-in-out border rounded-md appearance-none focus:outline-none sm:text-sm sm:leading-5" />
+
+            <div *ngIf="isInvalid('email')" class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+
+          <p *ngIf="isInvalid('email', 'required')" class="mt-2 text-sm text-red-600">Email is required.</p>
+          <p *ngIf="isInvalid('email', 'email')" class="mt-2 text-sm text-red-600">Please enter valid email address.</p>
+        </div>
+
+        <div class="mt-6">
+          <label for="password" class="block text-sm font-medium leading-5 text-gray-700">
+            Password
+          </label>
+
+          <div class="relative mt-1 rounded-md shadow-sm">
+            <input autocomplete="current-password" id="password" type="password" formControlName="password" [ngClass]="{ 'border-red-300 text-red-900 placeholder-red-300 focus:border-red-300 focus:shadow-outline-red': isInvalid('password'), 'border-gray-300 placeholder-gray-400 focus:shadow-outline-blue focus:border-blue-300': !isInvalid('password') }" required class="block w-full px-3 py-2 pr-10 transition duration-150 ease-in-out border rounded-md appearance-none focus:outline-none sm:text-sm sm:leading-5" />
+
+            <div *ngIf="isInvalid('password')" class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+              <svg class="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+            </div>
+          </div>
+
+          <p *ngIf="isInvalid('password', 'required')" class="mt-2 text-sm text-red-600">Password is required.</p>
+        </div>
+
+        <div class="mt-6">
+          <span class="block w-full rounded-md shadow-sm">
+            <button type="submit" class="flex justify-center w-full px-4 py-2 text-sm font-medium text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700">
+              Sign in
+            </button>
+          </span>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -18,6 +18,12 @@ const routes: Routes = [
     data: { authGuardPipe: redirectLoggedInToDashboard, },
   },
   {
+    path: 'register',
+    loadChildren: () => import('./register/register.module').then(m => m.RegisterModule),
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToDashboard, },
+  },
+  {
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
     canActivate: [AngularFireAuthGuard],

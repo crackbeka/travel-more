@@ -10,7 +10,8 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-  userName?: string;
+  userName?: string | null;
+  email?: string | null;
 
   optionsOpen = false;
 
@@ -18,8 +19,8 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.user.pipe().subscribe((user) => {
-      const emailParts = user?.email?.split('@');
-      this.userName = emailParts?.[0];
+      this.email = user?.email;
+      this.userName = user?.displayName;
     });
   }
 
