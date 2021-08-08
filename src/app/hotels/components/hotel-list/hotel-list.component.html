@@ -1,1 +1,43 @@
-<p>hotel-list works!</p>
+<div class="hotels">
+  <button type="button" class="btn btn-primary" (click)="toggleModal()">Add hotel</button>
+</div>
+
+<div class="modal" *ngIf="modalState">
+  <div class="modal-box">
+    <div class="modal-box__title">
+      Add Hotel
+    </div>
+    <label>Hotel Name</label>
+    <input id="name" class="form-control" type="text" />
+    <label>City</label>
+    <input id="city" class="form-control" type="text" />
+    <label>Address</label>
+    <input id="address" class="form-control" type="text" />
+    <label>Kids Policy</label>
+    <input id="kids" class="form-control" type="text" />
+    <label>Stars</label>
+    <input id="stars" class="form-control" type="number" />
+    <div class="row">
+      <div class="col">
+        <label>Fitness</label>
+        <input id="stars" class="form-check-input" type="checkbox" />
+        <label>Free Wifi</label>
+        <input id="stars" class="form-check-input" type="checkbox" />
+        <label>Parking</label>
+        <input id="stars" class="form-check-input" type="checkbox" />
+      </div>
+      <div class="col">
+        <label>Restaurant</label>
+        <input id="stars" class="form-check-input" type="checkbox" />
+        <label>Pool</label>
+        <input id="stars" class="form-check-input" type="checkbox" />
+        <label>Sauna</label>
+        <input id="stars" class="form-check-input" type="checkbox" />
+      </div>
+    </div>
+    <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+  </div>
+  <div class="modal-background" (click)="toggleModal()">
+
+  </div>
+</div>

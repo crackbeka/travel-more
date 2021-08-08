@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hotel-list.component.css']
 })
 export class HotelListComponent implements OnInit {
+  modalState: boolean = false;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  toggleModal(){
+    this.modalState = !this.modalState;
   }
 
 }
