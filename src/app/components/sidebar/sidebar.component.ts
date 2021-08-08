@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidebar',
@@ -19,8 +17,9 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.auth.user.pipe().subscribe((user) => {
+      console.log(`👉 ~ file: sidebar.component.ts ~ line 20 ~ SidebarComponent ~ this.auth.user.pipe ~ user`, user);
       this.email = user?.email;
-      this.userName = user?.displayName;
+      this.userName = user?.displayName ?? this.email?.split('@')[0];
     });
   }
 
