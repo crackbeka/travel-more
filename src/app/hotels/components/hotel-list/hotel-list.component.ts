@@ -30,6 +30,8 @@ export class HotelListComponent implements OnInit {
     verified: false
   }
 
+  uploading = false;
+
   canAddHotel = false;
   canRemoveHotel = false;
   canVerifyHotel = false;
@@ -55,6 +57,7 @@ export class HotelListComponent implements OnInit {
   }
 
   selectFile(event: any): void {
+    this.uploading = true;
     this.selectedFiles = event.target.files;
     this.upload();
   }
@@ -78,6 +81,7 @@ export class HotelListComponent implements OnInit {
               uploadedFiles.push(uploadedFile);
               this.hotelForm.images = uploadedFiles;
               console.log(uploadedFile);
+              this.uploading = false;
             },
             error => {
               console.log(error);

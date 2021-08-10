@@ -1,5 +1,17 @@
-<div class="hotels">
-  <button *ngIf="canAddHotel" type="button" class="btn btn-primary" (click)="toggleModal()">Add hotel</button>
+<div class="flex items-center justify-between">
+  <div class="flex-1 min-w-0">
+    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+      Hotels
+    </h2>
+  </div>
+
+  <button *ngIf="canAddHotel" type="button" (click)="toggleModal()" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+    <svg class="w-5 h-5 mr-2 -ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M17 11h-.01c.55-.01 1 .44 1 .99s-.45 1-1 1h-4v4c0 .55-.45 1-1 1-.56 0-1-.45-1-1v-4h-4l-.01-.001c-.56-.01-1-.45-1-1.01s.44-1 1-1h4v-4a.99.99 0 01.99-1.01c.55-.01 1 .44 1 .99v4h4z"/>
+    </svg>
+
+    Add hotel
+  </button>
 </div>
 
 <div class="modal" *ngIf="modalState">
@@ -42,7 +54,7 @@
       </div>
     </div>
     <label for="imgUpload" class="btn btn-primary" style="align-self: flex-start;">
-      Upload Images
+      {{ uploading ? 'Uploading...' : 'Upload Images' }}
       <input id="imgUpload" style="display: none;" type="file" class="text-nowrap text-truncate"
         (change)="selectFile($event)" multiple />
     </label>
@@ -62,3 +74,134 @@
 
   </div>
 </div>
+
+<div class="flex flex-col mt-8">
+  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Name
+              </th>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Title
+              </th>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Status
+              </th>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Role
+              </th>
+              <th scope="col" class="relative px-6 py-3">
+                <span class="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">
+                      Jane Cooper
+                    </div>
+                    <div class="text-sm text-gray-500">
+                      jane.cooper@example.com
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                <div class="text-sm text-gray-500">Optimization</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                  Active
+                </span>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                Admin
+              </td>
+              <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">
+                      Jane Cooper
+                    </div>
+                    <div class="text-sm text-gray-500">
+                      jane.cooper@example.com
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                <div class="text-sm text-gray-500">Optimization</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                  Active
+                </span>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                Admin
+              </td>
+              <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+              </td>
+            </tr>
+
+            <tr>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0 w-10 h-10">
+                    <img class="w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+                  </div>
+                  <div class="ml-4">
+                    <div class="text-sm font-medium text-gray-900">
+                      Jane Cooper
+                    </div>
+                    <div class="text-sm text-gray-500">
+                      jane.cooper@example.com
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
+                <div class="text-sm text-gray-500">Optimization</div>
+              </td>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                  Active
+                </span>
+              </td>
+              <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
+                Admin
+              </td>
+              <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
