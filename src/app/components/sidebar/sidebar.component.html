@@ -14,7 +14,7 @@
 
                   <div class="flex-1 text-left">
                     <h2 class="text-sm font-medium leading-5 text-gray-900 whitespace-nowrap">{{ userName }}</h2>
-                    <p class="text-xs leading-5 text-gray-500 truncate">{{ email }}</p>
+                    <p class="text-xs leading-5 text-gray-500 truncate">{{ userRole }}</p>
                   </div>
                 </div>
 
@@ -28,7 +28,7 @@
           <div *ngIf="optionsOpen" class="absolute left-0 right-0 z-10 mx-3 mt-1 origin-top rounded-md shadow-lg">
             <div class="bg-white rounded-md shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
               <div class="py-1">
-                <button (click)="logout()" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">Logout</button>
+                <button (click)="logout()" class="block w-full px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">Logout</button>
               </div>
             </div>
           </div>

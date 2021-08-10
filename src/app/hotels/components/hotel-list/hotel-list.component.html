@@ -1,5 +1,5 @@
 <div class="hotels">
-  <button type="button" class="btn btn-primary" (click)="toggleModal()">Add hotel</button>
+  <button *ngIf="canAddHotel" type="button" class="btn btn-primary" (click)="toggleModal()">Add hotel</button>
 </div>
 
 <div class="modal" *ngIf="modalState">

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  userRole!: string;
+
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
+    this.userService.getUserRole().subscribe((role) => {
+      this.userRole = role;
+
+      if (role === 'GUEST') {
+        this.router.navigate(['/hotels']);
+      }
+    });
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FileUploadService } from 'src/app/services/file-upload/file-upload.service';
 import { FileUpload } from 'src/app/classes/file-upload';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-hotel-list',
@@ -28,9 +29,18 @@ export class HotelListComponent implements OnInit {
     images: []
   }
 
-  constructor(private uploadService: FileUploadService, private hotelService: HotelService) {}
+  canAddHotel = false;
+  canRemoveHotel = false;
+  canVerifyHotel = false;
+
+  constructor(private uploadService: FileUploadService, private hotelService: HotelService, private userService: UserService) {}
 
   ngOnInit(): void {
+    this.userService.getUserRole().subscribe((role) => {
+      this.canAddHotel = role === 'HOTEL';
+      this.canRemoveHotel = role === 'ADMIN';
+      this.canVerifyHotel = role === 'ADMIN';
+    });
   }
 
   toggleModal(){
