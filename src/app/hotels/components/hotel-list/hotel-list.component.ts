@@ -26,12 +26,14 @@ export class HotelListComponent implements OnInit {
     restaurant: false,
     pool: false,
     sauna: false,
-    images: []
+    images: [],
+    verified: false
   }
 
   canAddHotel = false;
   canRemoveHotel = false;
   canVerifyHotel = false;
+  canViewUnverified = false;
 
   constructor(private uploadService: FileUploadService, private hotelService: HotelService, private userService: UserService) {}
 
@@ -40,6 +42,7 @@ export class HotelListComponent implements OnInit {
       this.canAddHotel = role === 'HOTEL';
       this.canRemoveHotel = role === 'ADMIN';
       this.canVerifyHotel = role === 'ADMIN';
+      this.canViewUnverified = role !== 'GUEST';
     });
   }
 
