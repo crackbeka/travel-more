@@ -122,14 +122,16 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                  Active
+                  Verified
                 </span>
               </td>
               <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                 Admin
               </td>
-              <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+              <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
                 <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                <a href="#" *ngIf="canRemoveHotel" class="text-red-600 hover:text-red-900">Delete</a>
+                <a href="#" *ngIf="canVerifyHotel" class="text-green-600 hover:text-green-900">Verify</a>
               </td>
             </tr>
 
@@ -155,14 +157,16 @@
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
                 <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                  Active
+                  Verified
                 </span>
               </td>
               <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                 Admin
               </td>
-              <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+              <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
                 <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                <a href="#" *ngIf="canRemoveHotel" class="text-red-600 hover:text-red-900">Delete</a>
+                <a href="#" *ngIf="canVerifyHotel" class="text-green-600 hover:text-green-900">Verify</a>
               </td>
             </tr>
 
@@ -187,15 +191,17 @@
                 <div class="text-sm text-gray-500">Optimization</div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                  Active
+                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full">
+                  Unverified
                 </span>
               </td>
               <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                 Admin
               </td>
-              <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+              <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
                 <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                <a href="#" *ngIf="canRemoveHotel" class="text-red-600 hover:text-red-900">Delete</a>
+                <a href="#" *ngIf="canVerifyHotel" class="text-green-600 hover:text-green-900">Verify</a>
               </td>
             </tr>
           </tbody>
