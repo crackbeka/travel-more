@@ -48,4 +48,12 @@ export class UserService {
       map(([details]: any) => details?.role)
     );
   }
+
+  getCurrentUserDetails(): Observable<string> {
+    return this.auth.user.pipe(
+      distinctUntilChanged(),
+      switchMap((user: any) => this.getUserDetails(user?.uid)),
+      map(([details]: any) => details)
+    );
+  }
 }

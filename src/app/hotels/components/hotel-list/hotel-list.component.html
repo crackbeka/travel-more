@@ -5,9 +5,11 @@
     </h2>
   </div>
 
-  <button *ngIf="canAddHotel" type="button" (click)="toggleModal()" class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+  <button *ngIf="canAddHotel" type="button" (click)="toggleModal()"
+    class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
     <svg class="w-5 h-5 mr-2 -ml-1" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M17 11h-.01c.55-.01 1 .44 1 .99s-.45 1-1 1h-4v4c0 .55-.45 1-1 1-.56 0-1-.45-1-1v-4h-4l-.01-.001c-.56-.01-1-.45-1-1.01s.44-1 1-1h4v-4a.99.99 0 01.99-1.01c.55-.01 1 .44 1 .99v4h4z"/>
+      <path
+        d="M17 11h-.01c.55-.01 1 .44 1 .99s-.45 1-1 1h-4v4c0 .55-.45 1-1 1-.56 0-1-.45-1-1v-4h-4l-.01-.001c-.56-.01-1-.45-1-1.01s.44-1 1-1h4v-4a.99.99 0 01.99-1.01c.55-.01 1 .44 1 .99v4h4z" />
     </svg>
 
     Add hotel
@@ -68,7 +70,61 @@
         </div>
       </div>
     </div>
-    <button type="button" class="btn btn-primary" (click)="save()">Save</button>
+    <button type="button" class="btn btn-primary" (click)="addRoom()">Add Room</button>
+    <ng-container *ngFor="let room of hotelForm.rooms; let i = index">
+      <div class="hotel-room" *ngIf="i == selectedRoomIndex">
+        <div class="hotel-room-remove" (click)="removeRoom(i)">
+          x
+        </div>
+        <div class="row">
+          <div class="col">
+            <input id="name" class="form-control" [(ngModel)]="room.name" type="text" placeholder="Room Name" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <input id="people" class="form-control" [(ngModel)]="room.people" type="number" placeholder="Room Places" />
+          </div>
+          <div class="col">
+            <input id="price" class="form-control" [(ngModel)]="room.price" type="number" placeholder="Room Price" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label>Wifi</label>
+            <input id="stars" class="form-check-input" [(ngModel)]="room.wifi" [ngModelOptions]="{standalone: true}"
+              type="checkbox" />
+            <label>Breakfast</label>
+            <input id="stars" class="form-check-input" [(ngModel)]="room.breakfast"
+              [ngModelOptions]="{standalone: true}" type="checkbox" />
+            <label>Mini Bar</label>
+            <input id="stars" class="form-check-input" [(ngModel)]="room.mini_bar" [ngModelOptions]="{standalone: true}"
+              type="checkbox" />
+            <label>TV</label>
+            <input id="stars" class="form-check-input" [(ngModel)]="room.tv" [ngModelOptions]="{standalone: true}"
+              type="checkbox" />
+          </div>
+          <div class="col">
+            <label>Conditioner</label>
+            <input id="stars" class="form-check-input" [(ngModel)]="room.conditioner"
+              [ngModelOptions]="{standalone: true}" type="checkbox" />
+            <label>City View</label>
+            <input id="stars" class="form-check-input" [(ngModel)]="room.city_view"
+              [ngModelOptions]="{standalone: true}" type="checkbox" />
+            <label>Heating</label>
+            <input id="stars" class="form-check-input" [(ngModel)]="room.heating" [ngModelOptions]="{standalone: true}"
+              type="checkbox" />
+            <label>Fridge</label>
+            <input id="stars" class="form-check-input" [(ngModel)]="room.fridge" [ngModelOptions]="{standalone: true}"
+              type="checkbox" />
+          </div>
+        </div>
+      </div>
+      <div class="hotel-room__collapsed" *ngIf="i != selectedRoomIndex" (click)="selectRoom(i);">
+        {{room.name ? room.name : 'Untitled Room ' + (i+1) }}
+      </div>
+    </ng-container>
+    <button type="button" class="btn btn-primary" (click)="saveHotel()">Save</button>
   </div>
   <div class="modal-background" (click)="toggleModal()">
 
@@ -86,13 +142,13 @@
                 Name
               </th>
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Title
+                Stars
               </th>
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Status
               </th>
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
-                Role
+                Created
               </th>
               <th scope="col" class="relative px-6 py-3">
                 <span class="sr-only">Edit</span>
@@ -100,108 +156,45 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr>
+            <tr *ngFor="let hotel of hotels">
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="flex items-center">
                   <div class="flex-shrink-0 w-10 h-10">
-                    <img class="w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
+                    <img class="w-10 h-10 rounded-full"
+                      src="{{hotel?.data?.images?.length > 0 ? hotel?.data?.images[0].url : '' }}" alt="">
                   </div>
                   <div class="ml-4">
                     <div class="text-sm font-medium text-gray-900">
-                      Jane Cooper
+                      {{hotel.data.name}}
                     </div>
                     <div class="text-sm text-gray-500">
-                      jane.cooper@example.com
+                      {{hotel.data.city + ' ' + hotel.data.address}}
                     </div>
                   </div>
                 </div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
-                <div class="text-sm text-gray-500">Optimization</div>
+                <div class="text-sm text-gray-900">{{hotel.data.stars + ' Stars'}}</div>
+                <div class="text-sm text-gray-500">Rating</div>
               </td>
               <td class="px-6 py-4 whitespace-nowrap">
-                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
+                <span *ngIf="hotel.data.verified; else elseVerified"
+                  class="inline-flex px-2 text-xs text-green-800 bg-green-100 font-semibold leading-5 rounded-full">
                   Verified
                 </span>
+                <ng-template #elseVerified>
+                  <span class="inline-flex px-2 text-xs text-red-800 bg-red-100 font-semibold leading-5 rounded-full">
+                    Unverified
+                  </span>
+                </ng-template>
               </td>
               <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                Admin
+                {{hotel.data.created_at.split('T')[0]}}
               </td>
               <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                <a href="#" *ngIf="canRemoveHotel" class="text-red-600 hover:text-red-900">Delete</a>
-                <a href="#" *ngIf="canVerifyHotel" class="text-green-600 hover:text-green-900">Verify</a>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0 w-10 h-10">
-                    <img class="w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
-                  </div>
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">
-                      Jane Cooper
-                    </div>
-                    <div class="text-sm text-gray-500">
-                      jane.cooper@example.com
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
-                <div class="text-sm text-gray-500">Optimization</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
-                  Verified
-                </span>
-              </td>
-              <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                Admin
-              </td>
-              <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                <a href="#" *ngIf="canRemoveHotel" class="text-red-600 hover:text-red-900">Delete</a>
-                <a href="#" *ngIf="canVerifyHotel" class="text-green-600 hover:text-green-900">Verify</a>
-              </td>
-            </tr>
-
-            <tr>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0 w-10 h-10">
-                    <img class="w-10 h-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
-                  </div>
-                  <div class="ml-4">
-                    <div class="text-sm font-medium text-gray-900">
-                      Jane Cooper
-                    </div>
-                    <div class="text-sm text-gray-500">
-                      jane.cooper@example.com
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">Regional Paradigm Technician</div>
-                <div class="text-sm text-gray-500">Optimization</div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full">
-                  Unverified
-                </span>
-              </td>
-              <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
-                Admin
-              </td>
-              <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
-                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
-                <a href="#" *ngIf="canRemoveHotel" class="text-red-600 hover:text-red-900">Delete</a>
-                <a href="#" *ngIf="canVerifyHotel" class="text-green-600 hover:text-green-900">Verify</a>
+                <a class="text-indigo-600 hover:text-indigo-900" (click)="toggleModal(hotel)">Edit</a>
+                <a *ngIf="canRemoveHotel" class="text-red-600 hover:text-red-900" (click)="deleteHotel(hotel)">Delete</a>
+                <a *ngIf="canVerifyHotel" class="text-green-600 hover:text-green-900" (click)="verifyHotel(hotel)">Verify</a>
               </td>
             </tr>
           </tbody>
@@ -210,4 +203,3 @@
     </div>
   </div>
 </div>
-

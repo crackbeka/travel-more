@@ -3,6 +3,7 @@ import { FileUploadService } from 'src/app/services/file-upload/file-upload.serv
 import { FileUpload } from 'src/app/classes/file-upload';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { UserService } from 'src/app/services/user/user.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-hotel-list',
@@ -14,7 +15,10 @@ export class HotelListComponent implements OnInit {
   selectedFiles?: FileList;
   currentFileUpload?: FileUpload;
   percentage = 0;
-  hotelForm: any = {
+  selectedHotelId: string = '';
+  hotelForm: any;
+  emptyHotelForm: any = {
+    manager_id: "",
     name: "",
     city: "",
     address: "",
@@ -27,8 +31,27 @@ export class HotelListComponent implements OnInit {
     pool: false,
     sauna: false,
     images: [],
-    verified: false
-  }
+    verified: false,
+    rooms: [],
+    created_at: null
+  };
+
+  room: any = {
+    name: "",
+    price: 0,
+    sold_dates: [],
+    people: 0,
+    wifi: false,
+    breakfast: false,
+    mini_bar: false,
+    tv: false,
+    conditioner: false,
+    city_view: false,
+    heating: false,
+    fridge: false
+  };
+
+  hotels: any[] = [];
 
   uploading = false;
 
@@ -36,8 +59,11 @@ export class HotelListComponent implements OnInit {
   canRemoveHotel = false;
   canVerifyHotel = false;
   canViewUnverified = false;
+  user: any;
+  userRole: string | undefined;
+  selectedRoomIndex: number = -1;
 
-  constructor(private uploadService: FileUploadService, private hotelService: HotelService, private userService: UserService) {}
+  constructor(private auth: AngularFireAuth, private uploadService: FileUploadService, private hotelService: HotelService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.userService.getUserRole().subscribe((role) => {
@@ -45,17 +71,60 @@ export class HotelListComponent implements OnInit {
       this.canRemoveHotel = role === 'ADMIN';
       this.canVerifyHotel = role === 'ADMIN';
       this.canViewUnverified = role !== 'GUEST';
+      this.userRole = role;
+    });
+    this.auth.user.subscribe(user => {
+      this.user = user?.uid;
+      if(this.user){
+        if(this.userRole === 'HOTEL'){
+          this.hotelService.getHotelsForUser(this.user).subscribe((res: any) => this.hotels = res);
+        }else{
+          this.hotelService.getAllHotels().subscribe((res: any) => this.hotels = res);
+        }
+      }
     });
   }
 
-  toggleModal(){
+  toggleModal(hotel?: any){
+    this.selectedHotelId = hotel ? hotel.key : '';
     this.modalState = !this.modalState;
+    this.hotelForm = hotel ? JSON.parse(JSON.stringify(hotel.data)) : JSON.parse(JSON.stringify(this.emptyHotelForm))
   }
 
-  save(){
-    this.hotelService.saveHotel(this.hotelForm).then(res => alert(res + "Saved Successfully"))
+  //Hotel Actions
+  saveHotel(){
+    if(this.selectedHotelId){
+      this.hotelService.updateHotel(this.selectedHotelId, this.hotelForm)
+          .then(res => this.toggleModal())  
+    }else{
+      this.hotelForm['manager_id'] = this.user;
+      this.hotelForm['created_at'] = new Date().toISOString();
+      this.hotelService.saveHotel(this.hotelForm).then(res => this.toggleModal())  
+    }
   }
 
+  verifyHotel(hotel: any){
+    if(this.canVerifyHotel){
+      hotel.data.verified = true;
+      this.hotelService.updateHotel(hotel.key, hotel.data)
+            .then(res => res) 
+    }
+  }
+
+  deleteHotel(hotel: any){
+    if(this.canRemoveHotel){
+      if(hotel.data.images){
+        while(hotel.data.images.length){
+          const fileToDelete = hotel.data.images[0].name;
+          hotel.data.images.splice(0, 1);
+          this.uploadService.deleteFileStorage(fileToDelete);
+        }
+      }
+      this.hotelService.deleteHotel(hotel.key);
+    }
+  }
+
+  //Image Actions
   selectFile(event: any): void {
     this.uploading = true;
     this.selectedFiles = event.target.files;
@@ -70,7 +139,6 @@ export class HotelListComponent implements OnInit {
 
   upload(): void {
     if (this.selectedFiles) {
-      console.log(this.selectedFiles);
       const uploadedFiles: any[] = [];
       for(let i = 0; i < this.selectedFiles.length; i ++){
         const file: File | null = this.selectedFiles.item(i);
@@ -80,7 +148,6 @@ export class HotelListComponent implements OnInit {
             uploadedFile => {
               uploadedFiles.push(uploadedFile);
               this.hotelForm.images = uploadedFiles;
-              console.log(uploadedFile);
               this.uploading = false;
             },
             error => {
@@ -89,12 +156,23 @@ export class HotelListComponent implements OnInit {
           );
         }
       }
-      console.log(uploadedFiles);
       this.selectedFiles = undefined;
     }
   }
 
-  deleteFileUpload(fileUpload: FileUpload): void {
-    this.uploadService.deleteFile(fileUpload);
+  //Room Actions
+
+  addRoom(){
+    const newRoom = JSON.parse(JSON.stringify(this.room));
+    this.hotelForm.rooms.unshift(newRoom);
+    this.selectRoom(0);
+  }
+
+  removeRoom(index: number){
+    this.hotelForm.rooms.splice(index,1);
+  }
+
+  selectRoom(index: number){
+    this.selectedRoomIndex = index;
   }
 }
