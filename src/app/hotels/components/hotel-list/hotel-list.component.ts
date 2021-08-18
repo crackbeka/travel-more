@@ -72,17 +72,19 @@ export class HotelListComponent implements OnInit {
       this.canVerifyHotel = role === 'ADMIN';
       this.canViewUnverified = role !== 'GUEST';
       this.userRole = role;
-    });
-    this.auth.user.subscribe(user => {
-      this.user = user?.uid;
-      if(this.user){
-        if(this.userRole === 'HOTEL'){
-          this.hotelService.getHotelsForUser(this.user).subscribe((res: any) => this.hotels = res);
-        }else{
-          this.hotelService.getAllHotels().subscribe((res: any) => this.hotels = res);
+      this.auth.user.subscribe(user => {
+        this.user = user?.uid;
+        if(this.user){
+          if(this.userRole === 'HOTEL'){
+            console.log(this.userRole);
+            this.hotelService.getHotelsForUser(this.user).subscribe((res: any) => this.hotels = res);
+          }else{
+            this.hotelService.getAllHotels().subscribe((res: any) => this.hotels = res);
+          }
         }
-      }
+      });
     });
+    
   }
 
   toggleModal(hotel?: any){
