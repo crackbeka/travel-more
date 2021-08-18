@@ -1,4 +1,7 @@
-<div class="flex items-center justify-between">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
+<div class="flex items-center justify-between px-8">
   <div class="flex-1 min-w-50">
     <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
       Hotels
@@ -134,8 +137,8 @@
   </div>
 </div>
 
-<div class="flex flex-col mt-8">
-  <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+<div class="flex flex-col px-8 mt-8">
+  <div class="-mx-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
       <div class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
         <table class="min-w-full divide-y divide-gray-200">
@@ -206,9 +209,10 @@
                 {{hotel.data.created_at.split('T')[0]}}
               </td>
 
-              <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap" *ngIf="canViewUnverified">
+              <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap" *ngIf="userRole != 'GUEST'">
                 <a *ngIf="canVerifyHotel && !hotel.data.verified" class="text-green-600 cursor-pointer hover:text-green-900" (click)="verifyHotel(hotel); $event.stopPropagation()">Verify</a>
-                <a class="text-indigo-600 cursor-pointer hover:text-indigo-900" (click)="toggleModal(hotel); $event.stopPropagation()">Edit</a>
+                <a *ngIf="canEditHotel" class="text-indigo-600 cursor-pointer hover:text-indigo-900" (click)="toggleModal(hotel); $event.stopPropagation()">Edit</a>
+                <a *ngIf="!canEditHotel" class="text-indigo-600 cursor-pointer hover:text-indigo-900" [routerLink]="[hotel.key]">View</a>
                 <a *ngIf="canRemoveHotel" class="text-red-600 cursor-pointer hover:text-red-900" (click)="deleteHotel(hotel); $event.stopPropagation()">Delete</a>
               </td>
             </tr>

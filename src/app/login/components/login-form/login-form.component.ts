@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
@@ -11,10 +10,10 @@ import { UserService } from 'src/app/services/user/user.service';
 })
 export class LoginFormComponent implements OnInit {
   form!: FormGroup;
+  errorMessage?: string;
 
   constructor(
     private userService: UserService,
-    private auth: AngularFireAuth,
     private fb: FormBuilder,
     private router: Router
   ) {}
@@ -27,12 +26,16 @@ export class LoginFormComponent implements OnInit {
   }
 
   login(): void {
+    this.errorMessage = undefined;
+
     if (!this.form.valid) {
       return;
     }
 
     this.userService.login(this.form.value).then(() => {
       this.router.navigate(['dashboard']);
+    }).catch((err: any) => {
+      this.errorMessage = err.message;
     });
   }
 
