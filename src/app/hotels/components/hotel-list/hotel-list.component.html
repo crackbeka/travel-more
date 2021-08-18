@@ -141,60 +141,72 @@
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Name
               </th>
+
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Stars
               </th>
+
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Status
               </th>
+
               <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
                 Created
               </th>
+
               <th scope="col" class="relative px-6 py-3">
                 <span class="sr-only">Edit</span>
               </th>
             </tr>
           </thead>
+
           <tbody class="bg-white divide-y divide-gray-200">
-            <tr *ngFor="let hotel of hotels" [routerLink]="[hotel.key]">
-              <td class="px-6 py-4 whitespace-nowrap">
+            <tr *ngFor="let hotel of hotels">
+              <td class="px-6 py-4 cursor-pointer whitespace-nowrap" [routerLink]="[hotel.key]">
                 <div class="flex items-center">
                   <div class="flex-shrink-0 w-10 h-10">
                     <img class="w-10 h-10 rounded-full"
-                      src="{{hotel?.data?.images?.length > 0 ? hotel?.data?.images[0].url : '' }}" alt="">
+                      src="{{hotel?.data?.images?.length > 0 ? hotel?.data?.images[0].url : '' }}" alt="" />
                   </div>
+
                   <div class="ml-4">
                     <div class="text-sm font-medium text-gray-900">
                       {{hotel.data.name}}
                     </div>
+
                     <div class="text-sm text-gray-500">
                       {{hotel.data.city + ' ' + hotel.data.address}}
                     </div>
                   </div>
                 </div>
               </td>
+
               <td class="px-6 py-4 whitespace-nowrap">
                 <div class="text-sm text-gray-900">{{hotel.data.stars + ' Stars'}}</div>
                 <div class="text-sm text-gray-500">Rating</div>
               </td>
+
               <td class="px-6 py-4 whitespace-nowrap">
                 <span *ngIf="hotel.data.verified; else elseVerified"
-                  class="inline-flex px-2 text-xs text-green-800 bg-green-100 font-semibold leading-5 rounded-full">
+                  class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">
                   Verified
                 </span>
+
                 <ng-template #elseVerified>
-                  <span class="inline-flex px-2 text-xs text-red-800 bg-red-100 font-semibold leading-5 rounded-full">
+                  <span class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full">
                     Unverified
                   </span>
                 </ng-template>
               </td>
+
               <td class="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">
                 {{hotel.data.created_at.split('T')[0]}}
               </td>
+
               <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
-                <a class="text-indigo-600 hover:text-indigo-900" (click)="toggleModal(hotel); $event.stopPropagation()">Edit</a>
-                <a *ngIf="canRemoveHotel" class="text-red-600 hover:text-red-900" (click)="deleteHotel(hotel); $event.stopPropagation()">Delete</a>
-                <a *ngIf="canVerifyHotel" class="text-green-600 hover:text-green-900" (click)="verifyHotel(hotel); $event.stopPropagation()">Verify</a>
+                <a *ngIf="canVerifyHotel && !hotel.data.verified" class="text-green-600 cursor-pointer hover:text-green-900" (click)="verifyHotel(hotel); $event.stopPropagation()">Verify</a>
+                <a class="text-indigo-600 cursor-pointer hover:text-indigo-900" (click)="toggleModal(hotel); $event.stopPropagation()">Edit</a>
+                <a *ngIf="canRemoveHotel" class="text-red-600 cursor-pointer hover:text-red-900" (click)="deleteHotel(hotel); $event.stopPropagation()">Delete</a>
               </td>
             </tr>
           </tbody>
