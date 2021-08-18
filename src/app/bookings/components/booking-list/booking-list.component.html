@@ -1,1 +1,58 @@
-<p>booking-list works!</p>
+<div class="flex items-center justify-between px-8" style="padding-top: 2rem;">
+  <div class="flex-1 min-w-50">
+    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
+      Bookings
+    </h2>
+  </div>
+</div>
+
+<div class="flex flex-col px-8 mt-8">
+  <div class="-mx-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+      <div class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+        <table class="min-w-full divide-y divide-gray-200">
+          <thead class="bg-gray-50">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Hotel
+              </th>
+
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Room
+              </th>
+
+              <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                Days
+              </th>
+
+              <th scope="col" class="relative px-6 py-3">
+                <span class="sr-only">Edit</span>
+              </th>
+            </tr>
+          </thead>
+
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr *ngFor="let booking of bookings">
+              <td class="px-6 py-4 cursor-pointer whitespace-nowrap" [routerLink]="[booking.key]">
+                    <div class="text-sm text-gray-900">{{booking.data.hotel_name + ' Stars'}}</div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{booking.data.room_name + ' Stars'}}</div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-sm text-gray-900">{{(booking.data?.dates ? booking.data?.dates?.length : 0) + ' days'}}</div>
+              </td>
+
+              <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
+                <a class="text-red-600 cursor-pointer hover:text-red-900"
+                  (click)="deleteBooking(booking); $event.stopPropagation()">Delete</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

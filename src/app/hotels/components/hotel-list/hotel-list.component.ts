@@ -77,20 +77,24 @@ export class HotelListComponent implements OnInit {
       this.auth.user.subscribe(user => {
         this.user = user?.uid;
         if (this.user) {
-          if(this.userRole === 'HOTEL') {
-            this.hotelService.getHotelsForUser(this.user).subscribe((res: any) => this.hotels = res);
-          } else if (this.userRole === 'ADMIN') {
-            this.hotelService.getAllHotels().subscribe((res: any) => this.hotels = res);
-          } else {
-            this.hotelService.getVerifiedHotels().subscribe((res: any) => this.hotels = res);
-          }
+          this.getHotels().subscribe((res: any) => this.hotels = res);
         }
       });
     });
   }
 
+  getHotels(){
+    if(this.userRole === 'HOTEL') {
+      return this.hotelService.getHotelsForUser(this.user);
+    } else if (this.userRole === 'ADMIN') {
+      return this.hotelService.getAllHotels();
+    } else {
+      return this.hotelService.getVerifiedHotels();
+    }
+  }
+
   search(event: any){
-    this.hotelService.getVerifiedHotels().subscribe((res: any) => this.hotels = res.filter((x:any) => x.data.name.toLowerCase().includes(event.target.value.toLowerCase())));
+    this.getHotels().subscribe((res: any) => this.hotels = res.filter((x:any) => x.data.name.toLowerCase().includes(event.target.value.toLowerCase())));
   }
 
   toggleModal(hotel?: any){

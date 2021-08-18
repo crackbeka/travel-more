@@ -57,6 +57,7 @@ export class HotelDetailsComponent implements OnInit {
     this.hotelId = this.route.snapshot.paramMap.get('id');
     this.hotelService.getHotelById(this.hotelId).subscribe(res => {
       this.hotel = res;
+      console.log(this.hotel.data)
       this.stars = new Array(Math.floor(this.hotel.data.stars));
     });
 
