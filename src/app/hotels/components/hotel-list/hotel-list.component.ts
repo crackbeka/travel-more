@@ -85,7 +85,10 @@ export class HotelListComponent implements OnInit {
         }
       });
     });
+  }
 
+  search(event: any){
+    this.hotelService.getVerifiedHotels().subscribe((res: any) => this.hotels = res.filter((x:any) => x.data.name.toLowerCase().includes(event.target.value.toLowerCase())));
   }
 
   toggleModal(hotel?: any){

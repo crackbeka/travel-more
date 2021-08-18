@@ -1,9 +1,12 @@
 <div class="flex items-center justify-between">
-  <div class="flex-1 min-w-0">
+  <div class="flex-1 min-w-50">
     <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:truncate">
       Hotels
     </h2>
   </div>
+  
+  <input class="form-control flex-1" style="margin: 0;" (keyup)="search($event)" type="text" placeholder="Search..." />
+
 
   <button *ngIf="canAddHotel" type="button" (click)="toggleModal()"
     class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -203,7 +206,7 @@
                 {{hotel.data.created_at.split('T')[0]}}
               </td>
 
-              <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
+              <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap" *ngIf="canViewUnverified">
                 <a *ngIf="canVerifyHotel && !hotel.data.verified" class="text-green-600 cursor-pointer hover:text-green-900" (click)="verifyHotel(hotel); $event.stopPropagation()">Verify</a>
                 <a class="text-indigo-600 cursor-pointer hover:text-indigo-900" (click)="toggleModal(hotel); $event.stopPropagation()">Edit</a>
                 <a *ngIf="canRemoveHotel" class="text-red-600 cursor-pointer hover:text-red-900" (click)="deleteHotel(hotel); $event.stopPropagation()">Delete</a>
