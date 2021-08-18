@@ -23,7 +23,10 @@
     "@tailwindcss/forms": "^0.3.3",
     "chart.js": "^2.9.4",
     "firebase": "^8.9",
+    "moment": "^2.29.1",
     "ng2-charts": "^2.4.2",
+    "primeicons": "^4.1.0",
+    "primeng": "^12.1.0-rc.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

@@ -5,7 +5,7 @@ import { HotelsRoutingModule } from './hotels-routing.module';
 import { HotelListComponent } from './components/hotel-list/hotel-list.component';
 import { HotelDetailsComponent } from './components/hotel-details/hotel-details.component';
 import { SlideshowComponent } from './components/slideshow/slideshow.component';
-
+import { CalendarModule } from 'primeng/calendar';
 @NgModule({
   declarations: [
     HotelListComponent,
@@ -15,7 +15,8 @@ import { SlideshowComponent } from './components/slideshow/slideshow.component';
   imports: [
     CommonModule,
     HotelsRoutingModule,
-    FormsModule
+    FormsModule,
+    CalendarModule,
   ]
 })
 export class HotelsModule { }

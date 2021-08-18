@@ -52,8 +52,152 @@
             <i class="material-icons"
               [ngStyle]="{'color': property.value ? 'green' : 'red'}">{{ property.value ? 'done' : 'close'}}</i>
           </div>
-          </ng-container>
+        </ng-container>
       </div>
     </div>
+  </div>
+
+  <div class="flex flex-col mt-8">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <div class="overflow-hidden border-b border-gray-200 shadow sm:rounded-lg">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                  Name
+                </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                  People
+                </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                  Price
+                </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase">
+                  Options
+                </th>
+                <th scope="col" class="relative px-6 py-3">
+                  <span class="sr-only">Action</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr *ngFor="let room of hotel?.data?.rooms; let i = index">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{room?.name}}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">{{room?.people}}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-900">${{room?.price}}</div>
+                </td>
+                <td class="px-6 py-4 text-sm text-gray-500">
+                  <div class="room-table__option">
+                    <div class="room-table__option__title">
+                      <i class="material-icons">restaurant</i>
+                      <span>Breakfast</span>
+                    </div>
+                    <i class="material-icons"
+                      [ngStyle]="{'color': room.breakfast ? 'green' : 'red'}">{{ room.breakfast ? 'done' : 'close'}}</i>
+                  </div>
+                  <div class="room-table__option">
+                    <div class="room-table__option__title">
+                      <i class="material-icons">location_city</i>
+                      <span>City View</span>
+                    </div>
+                    <i class="material-icons"
+                      [ngStyle]="{'color': room.city_view ? 'green' : 'red'}">{{ room.city_view ? 'done' : 'close'}}</i>
+                  </div>
+                  <div class="room-table__option">
+                    <div class="room-table__option__title">
+                      <i class="material-icons">ac_unit</i>
+                      <span>Conditioner</span>
+                    </div>
+                    <i class="material-icons"
+                      [ngStyle]="{'color': room.conditioner ? 'green' : 'red'}">{{ room.conditioner ? 'done' : 'close'}}</i>
+                  </div>
+                  <div class="room-table__option">
+                    <div class="room-table__option__title">
+                      <i class="material-icons">kitchen</i>
+                      <span>Fridge</span>
+                    </div>
+                    <i class="material-icons"
+                      [ngStyle]="{'color': room.fridge ? 'green' : 'red'}">{{ room.fridge ? 'done' : 'close'}}</i>
+                  </div>
+                  <div class="room-table__option">
+                    <div class="room-table__option__title">
+                      <i class="material-icons">wb_sunny</i>
+                      <span>Heating</span>
+                    </div>
+                    <i class="material-icons"
+                      [ngStyle]="{'color': room.heating ? 'green' : 'red'}">{{ room.heating ? 'done' : 'close'}}</i>
+                  </div>
+                  <div class="room-table__option">
+                    <div class="room-table__option__title">
+                      <i class="material-icons">local_bar</i>
+                      <span>Mini Bar</span>
+                    </div>
+                    <i class="material-icons"
+                      [ngStyle]="{'color': room.mini_bar ? 'green' : 'red'}">{{ room.mini_bar ? 'done' : 'close'}}</i>
+                  </div>
+                  <div class="room-table__option">
+                    <div class="room-table__option__title">
+                      <i class="material-icons">tv</i>
+                      <span>Television</span>
+                    </div>
+                    <i class="material-icons"
+                      [ngStyle]="{'color': room.tv ? 'green' : 'red'}">{{ room.tv ? 'done' : 'close'}}</i>
+                  </div>
+                  <div class="room-table__option">
+                    <div class="room-table__option__title">
+                      <i class="material-icons">wifi</i>
+                      <span>Wifi</span>
+                    </div>
+                    <i class="material-icons"
+                      [ngStyle]="{'color': room.wifi ? 'green' : 'red'}">{{ room.wifi ? 'done' : 'close'}}</i>
+                  </div>
+                </td>
+                <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
+                  <a class="text-indigo-600 hover:text-indigo-900" (click)="openBookingModal(i)">Book</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" *ngIf="modalState">
+  <div class="modal-box">
+    <div class="modal-box__title">
+      Book Room
+    </div>
+    <label>Checkin Date</label>
+    <p-calendar [(ngModel)]="checkinDate" [disabledDates]="disabledDates" [inline]="true" [showWeek]="true">
+      <ng-template pTemplate="date" let-date>
+        <span [ngStyle]="{backgroundColor: checkBookedDate(date) ? 'red' : 'inherit', 
+                                    color: checkBookedDate(date) ? '#fff' : 'inherit'}"
+          style="border-radius:50%; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px;">
+          {{date.day}}
+        </span>
+      </ng-template>
+    </p-calendar>
+    <label>Checkoout Date</label>
+    <p-calendar [(ngModel)]="checkoutDate" [disabledDates]="disabledDates" [inline]="true" [showWeek]="true">
+      <ng-template pTemplate="date" let-date>
+        <span [ngStyle]="{backgroundColor: checkBookedDate(date) ? 'red' : 'inherit', 
+                                    color: checkBookedDate(date) ? '#fff' : 'inherit'}"
+          style="border-radius:50%; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px;">
+          {{date.day}}
+        </span>
+      </ng-template>
+    </p-calendar>
+    <button type="button" class="btn btn-primary" (click)="book()">Book</button>
+  </div>
+  <div class="modal-background" (click)="modalState = false; selectedRoomIndex = -1">
+
   </div>
 </div>
