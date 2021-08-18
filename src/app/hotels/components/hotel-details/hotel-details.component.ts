@@ -94,8 +94,7 @@ export class HotelDetailsComponent implements OnInit {
       }
   
       this.bookingService.saveBooking(payload).then(res => {
-        this.selectedRoom['sale_dates'] = [...this.selectedRoom['sale_dates'], ...payload.dates];
-        console.log(this.selectedRoomIndex)
+        this.selectedRoom['sale_dates'] = this.selectedRoom['sale_dates'] ? [...this.selectedRoom['sale_dates'], ...payload.dates] : payload.dates;
         if(this.selectedRoomIndex != null && this.selectedRoomIndex != undefined)
         this.hotel.data.rooms[this.selectedRoomIndex] = {...this.hotel.data.rooms[this.selectedRoomIndex], ...this.selectedRoom};
         this.hotelService.updateHotel(this.hotel.key, this.hotel.data).then(res => {

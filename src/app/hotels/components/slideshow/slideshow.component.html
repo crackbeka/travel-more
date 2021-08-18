@@ -1,6 +1,6 @@
 <div class="slideshow"
   [ngStyle]="{'background': 'url('+( photos?.length ? photos[currentPhotoIndex]?.url : '' )+') no-repeat center / contain black', 'background-color': photos?.length ? 'black' : 'whote'}">
-  <span *ngIf="!photos.length">
+  <span *ngIf="!photos?.length">
     No Pictures Available
   </span>
   <div class="slideshow-arrow slideshow-arrow-left" (click)="selectImage(currentPhotoIndex-1)">
