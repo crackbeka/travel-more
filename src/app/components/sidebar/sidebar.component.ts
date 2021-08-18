@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/services/user/user.service';
@@ -8,7 +8,7 @@ import { UserService } from 'src/app/services/user/user.service';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   userName?: string | null;
 
   userRole?: string | null;
@@ -38,6 +38,11 @@ export class SidebarComponent implements OnInit {
   logout(): void {
     this.auth.signOut().then(() => {
       this.router.navigate(['login']);
+      this.optionsOpen = false;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.optionsOpen = false;
   }
 }

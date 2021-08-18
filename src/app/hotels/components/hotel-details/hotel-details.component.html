@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+
 <div class="hotel">
   <app-slideshow [photos]="hotel ? hotel?.data?.images : []"></app-slideshow>
   <div class="hotel-title"
@@ -159,7 +162,7 @@
                   </div>
                 </td>
                 <td class="px-6 py-4 space-x-4 text-sm font-medium text-right whitespace-nowrap">
-                  <a class="text-indigo-600 hover:text-indigo-900" (click)="openBookingModal(i)">Book</a>
+                  <a class="text-indigo-600 cursor-pointer hover:text-indigo-900" (click)="openBookingModal(i)">Book</a>
                 </td>
               </tr>
             </tbody>
@@ -178,7 +181,7 @@
     <label>Checkin Date</label>
     <p-calendar [(ngModel)]="checkinDate" [disabledDates]="disabledDates" [inline]="true" [showWeek]="true">
       <ng-template pTemplate="date" let-date>
-        <span [ngStyle]="{backgroundColor: checkBookedDate(date) ? 'red' : 'inherit', 
+        <span [ngStyle]="{backgroundColor: checkBookedDate(date) ? 'red' : 'inherit',
                                     color: checkBookedDate(date) ? '#fff' : 'inherit'}"
           style="border-radius:50%; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px;">
           {{date.day}}
@@ -188,7 +191,7 @@
     <label>Checkoout Date</label>
     <p-calendar [(ngModel)]="checkoutDate" [disabledDates]="disabledDates" [inline]="true" [showWeek]="true">
       <ng-template pTemplate="date" let-date>
-        <span [ngStyle]="{backgroundColor: checkBookedDate(date) ? 'red' : 'inherit', 
+        <span [ngStyle]="{backgroundColor: checkBookedDate(date) ? 'red' : 'inherit',
                                     color: checkBookedDate(date) ? '#fff' : 'inherit'}"
           style="border-radius:50%; display: flex; align-items: center; justify-content: center; width: 30px; height: 30px;">
           {{date.day}}

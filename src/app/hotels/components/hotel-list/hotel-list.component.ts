@@ -4,6 +4,7 @@ import { FileUpload } from 'src/app/classes/file-upload';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
 import { UserService } from 'src/app/services/user/user.service';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-hotel-list',
@@ -56,9 +57,9 @@ export class HotelListComponent implements OnInit {
   uploading = false;
 
   canAddHotel = false;
+  canEditHotel = false;
   canRemoveHotel = false;
   canVerifyHotel = false;
-  canViewUnverified = false;
   user: any;
   userRole: string | undefined;
   selectedRoomIndex: number = -1;
@@ -68,17 +69,21 @@ export class HotelListComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUserRole().subscribe((role) => {
       this.canAddHotel = role === 'HOTEL';
+      this.canEditHotel = role !== 'GUEST';
       this.canRemoveHotel = role === 'ADMIN';
       this.canVerifyHotel = role === 'ADMIN';
-      this.canViewUnverified = role !== 'GUEST';
       this.userRole = role;
+
       this.auth.user.subscribe(user => {
         this.user = user?.uid;
         if(this.user){
-          if(this.userRole === 'HOTEL'){
+          if(this.userRole === 'HOTEL') {
             this.hotelService.getHotelsForUser(this.user).subscribe((res: any) => this.hotels = res);
-          }else{
-            this.hotelService.getAllHotels().subscribe((res: any) => this.hotels = res);
+          } else {
+            this.hotelService.getAllHotels()
+              .subscribe((res: any[]) => {
+                this.hotels = res.filter((hotel: any) => role !== 'GUEST' ? true : hotel.data.verified );
+              });
           }
         }
       });
