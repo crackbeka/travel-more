@@ -77,8 +77,10 @@ export class HotelListComponent implements OnInit {
         if(this.user){
           if(this.userRole === 'HOTEL'){
             this.hotelService.getHotelsForUser(this.user).subscribe((res: any) => this.hotels = res);
-          }else{
+          }else if(this.userRole === 'ADMIN'){
             this.hotelService.getAllHotels().subscribe((res: any) => this.hotels = res);
+          }else{
+            this.hotelService.getVerifiedHotels().subscribe((res: any) => this.hotels = res);
           }
         }
       });
