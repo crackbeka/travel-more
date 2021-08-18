@@ -1,0 +1,59 @@
+<div class="hotel">
+  <app-slideshow [photos]="hotel ? hotel?.data?.images : []"></app-slideshow>
+  <div class="hotel-title"
+    [ngStyle]="{'background': 'url('+( hotel?.data?.images?.length ? hotel?.data?.images[0]?.url : '' )+') no-repeat center / cover black'}">
+    <div class="hotel-title__darken"></div>
+    <span>{{hotel?.data?.name}}</span>
+    <span class="hotel-stars">
+      <i class="material-icons" *ngFor="let star of stars">star</i>
+    </span>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+      <div class="hotel-box">
+        <div class="hotel-box__item">
+          <div class="hotel-box__item__title">
+            <i class="material-icons">location_city</i>
+            <span> City:</span>
+          </div>
+          <span>{{hotel?.data?.city}}</span>
+
+        </div>
+        <div class="hotel-box__item">
+          <div class="hotel-box__item__title">
+
+            <i class="material-icons">place</i>
+            <span> Address:</span>
+          </div>
+          <span>{{hotel?.data?.address}}</span>
+
+        </div>
+        <div class="hotel-box__item">
+          <div class="hotel-box__item__title">
+            <i class="material-icons">child_friendly</i>
+            <span> Kids</span>
+          </div>
+          <span>
+            {{hotel?.data?.kids}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="hotel-box" *ngIf="hotel.data">
+        <ng-container *ngFor="let property of hotel.data | keyvalue">
+          <div class="hotel-box__item" *ngIf="hotelOptions.hasOwnProperty(property?.key)">
+            <div class="hotel-box__item__title">
+              <i class="material-icons">{{hotelOptions[(property?.key+'')].icon}}</i>
+              <span>{{hotelOptions[(property.key)+''].title}}
+              </span>
+            </div>
+            <i class="material-icons"
+              [ngStyle]="{'color': property.value ? 'green' : 'red'}">{{ property.value ? 'done' : 'close'}}</i>
+          </div>
+          </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

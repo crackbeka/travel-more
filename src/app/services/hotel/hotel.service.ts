@@ -29,6 +29,17 @@ export class HotelService {
       );
   }
 
+  getHotelById(hotelId: any){
+    console.log(`${this.basePath}/${hotelId}`)
+    return this.db.object(`${this.basePath}/${hotelId}`)
+      .snapshotChanges().pipe(
+        map(hotel => {
+          console.log(hotel);
+          return {key: hotel.payload.key, data: hotel.payload.val()}
+        })
+      );
+  }
+
   getAllHotels(){
     return this.db.list(`${this.basePath}`)
       .snapshotChanges().pipe(

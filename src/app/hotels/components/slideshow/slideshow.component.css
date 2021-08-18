@@ -1,0 +1,38 @@
+.slideshow{
+    position: relative;
+    width: 100%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.slideshow-arrow{
+    position: absolute;
+    height: 100%;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(97, 96, 96, 0.39);
+    cursor: pointer;
+    transition: 0.3s;
+}
+.slideshow-arrow i {
+    font-size: 2rem;
+}
+
+.slideshow-arrow:hover{
+    background: rgba(97, 96, 96, 0.5);
+
+}
+
+.slideshow-arrow-left{
+    top: 0;
+    left: 0;
+}
+.slideshow-arrow-right{
+    top: 0;
+    right: 0;
+}
