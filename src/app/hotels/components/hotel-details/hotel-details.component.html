@@ -44,7 +44,7 @@
       </div>
     </div>
     <div class="col-6">
-      <div class="hotel-box" *ngIf="hotel.data">
+      <div class="hotel-box" *ngIf="hotel?.data">
         <ng-container *ngFor="let property of hotel.data | keyvalue">
           <div class="hotel-box__item" *ngIf="hotelOptions.hasOwnProperty(property?.key)">
             <div class="hotel-box__item__title">

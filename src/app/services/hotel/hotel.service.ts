@@ -48,6 +48,15 @@ export class HotelService {
         })
       );
   }
+  
+  getVerifiedHotels(){
+    return this.db.list(`${this.basePath}`, ref => ref.orderByChild('verified').equalTo(true))
+      .snapshotChanges().pipe(
+        map(hotels => {
+          return hotels.map(hotel => ({key: hotel.payload.key, data: hotel.payload.val()}))
+        })
+      );
+  }
 
   deleteHotel(id: any){
     return this.db.list(`${this.basePath}`).remove(id);

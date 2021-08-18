@@ -76,14 +76,13 @@ export class HotelListComponent implements OnInit {
 
       this.auth.user.subscribe(user => {
         this.user = user?.uid;
-        if(this.user){
+        if (this.user) {
           if(this.userRole === 'HOTEL') {
             this.hotelService.getHotelsForUser(this.user).subscribe((res: any) => this.hotels = res);
+          } else if (this.userRole === 'ADMIN') {
+            this.hotelService.getAllHotels().subscribe((res: any) => this.hotels = res);
           } else {
-            this.hotelService.getAllHotels()
-              .subscribe((res: any[]) => {
-                this.hotels = res.filter((hotel: any) => role !== 'GUEST' ? true : hotel.data.verified );
-              });
+            this.hotelService.getVerifiedHotels().subscribe((res: any) => this.hotels = res);
           }
         }
       });
