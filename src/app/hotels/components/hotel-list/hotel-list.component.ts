@@ -76,7 +76,6 @@ export class HotelListComponent implements OnInit {
         this.user = user?.uid;
         if(this.user){
           if(this.userRole === 'HOTEL'){
-            console.log(this.userRole);
             this.hotelService.getHotelsForUser(this.user).subscribe((res: any) => this.hotels = res);
           }else{
             this.hotelService.getAllHotels().subscribe((res: any) => this.hotels = res);
@@ -84,7 +83,7 @@ export class HotelListComponent implements OnInit {
         }
       });
     });
-    
+
   }
 
   toggleModal(hotel?: any){
@@ -97,11 +96,11 @@ export class HotelListComponent implements OnInit {
   saveHotel(){
     if(this.selectedHotelId){
       this.hotelService.updateHotel(this.selectedHotelId, this.hotelForm)
-          .then(res => this.toggleModal())  
+          .then(res => this.toggleModal())
     }else{
       this.hotelForm['manager_id'] = this.user;
       this.hotelForm['created_at'] = new Date().toISOString();
-      this.hotelService.saveHotel(this.hotelForm).then(res => this.toggleModal())  
+      this.hotelService.saveHotel(this.hotelForm).then(res => this.toggleModal())
     }
   }
 
@@ -109,7 +108,7 @@ export class HotelListComponent implements OnInit {
     if(this.canVerifyHotel){
       hotel.data.verified = true;
       this.hotelService.updateHotel(hotel.key, hotel.data)
-            .then(res => res) 
+            .then(res => res)
     }
   }
 
