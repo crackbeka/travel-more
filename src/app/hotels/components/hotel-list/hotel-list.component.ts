@@ -76,7 +76,6 @@ export class HotelListComponent implements OnInit {
         this.user = user?.uid;
         if(this.user){
           if(this.userRole === 'HOTEL'){
-            console.log(this.userRole);
             this.hotelService.getHotelsForUser(this.user).subscribe((res: any) => this.hotels = res);
           }else{
             this.hotelService.getAllHotels().subscribe((res: any) => this.hotels = res);

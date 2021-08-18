@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { HotelService } from 'src/app/services/hotel/hotel.service';
+import { BookingService } from 'src/app/services/booking/booking.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { AngularFireAuth } from '@angular/fire/auth';
 import * as moment from 'moment';
 
 @Component({
@@ -45,52 +48,100 @@ export class HotelDetailsComponent implements OnInit {
   checkinDate: any;
   checkoutDate: any;
   disabledDates: any[] = [];
+  user: any;
+  userRole: string | undefined;
 
-  constructor(private route: ActivatedRoute, private hotelService: HotelService) { }
+  constructor(private route: ActivatedRoute, private auth: AngularFireAuth, private userService: UserService, private hotelService: HotelService, private bookingService: BookingService) { }
 
   ngOnInit(): void {
     this.hotelId = this.route.snapshot.paramMap.get('id');
     this.hotelService.getHotelById(this.hotelId).subscribe(res => {
-      this.hotel = res
+      this.hotel = res;
       this.stars = new Array(this.hotel.data.stars);
-      console.log(this.hotel);
-    })
+    });
+
+    this.userService.getUserRole().subscribe((role) => {
+      this.userRole = role;
+      this.auth.user.subscribe(user => {
+        this.user = user?.uid;
+      });
+    });
+    
 
     this.getDates();
   }
 
   openBookingModal(index: number){
+    this.disabledDates = [];
     this.selectedRoomIndex = index;
     this.selectedRoom = JSON.parse(JSON.stringify(this.hotel.data.rooms[this.selectedRoomIndex]));
     this.modalState = true;
-    ['2021-08-05'].forEach(date => {
+    if(this.selectedRoom.hasOwnProperty('sale_dates'))
+    this.selectedRoom.sale_dates.forEach((date: string) => {
       this.disabledDates.push(new Date(date))
     });
   }
 
   book(){
-
-    this.modalState = false;
+    if(this.checkinDate && this.checkoutDate){
+      const payload = {
+        user_id: this.user,
+        dates: this.getDates(),
+        hotel_name: this.hotel.data.name,
+        room_name: this.selectedRoom.name,
+        hotel_id: this.hotel.key,
+        room_id: this.selectedRoomIndex
+      }
+  
+      this.bookingService.saveBooking(payload).then(res => {
+        this.selectedRoom['sale_dates'] = [...this.selectedRoom['sale_dates'], ...payload.dates];
+        console.log(this.selectedRoomIndex)
+        if(this.selectedRoomIndex != null && this.selectedRoomIndex != undefined)
+        this.hotel.data.rooms[this.selectedRoomIndex] = {...this.hotel.data.rooms[this.selectedRoomIndex], ...this.selectedRoom};
+        this.hotelService.updateHotel(this.hotel.key, this.hotel.data).then(res => {
+          this.clearForm();
+        }).catch(err => {
+          this.clearForm();
+        })
+      }).catch(err => {
+        console.log(err);
+        this.clearForm();
+      })
+      
+    }
   }
 
   checkBookedDate(date: any) {
-    const testArray = ['2021-08-05']
-    const dateString = `${date.year.toString()}-${('00' + (date.month + 1).toString()).substr(-2)}-${('00' + date.day.toString()).substr(-2)}`;
-    console.log(date, dateString)
-    const returnedStatus = testArray.indexOf(dateString) > -1 ? true : false;
+    let returnedStatus = false;
+    if(this.selectedRoom.hasOwnProperty('sale_dates')){
+      const dateString = this.formatDate(date);
+      returnedStatus = this.selectedRoom.sale_dates.indexOf(dateString) > -1 ? true : false;
+    }
     return returnedStatus;
   }
 
   getDates() {
-    let currentDate = moment('2021-08-05');
-    let endDate = moment('2021-08-10');
+    let currentDate = moment(this.checkinDate);
+    let endDate = moment(this.checkoutDate);
     let dates = [];
     while(currentDate.isSameOrBefore(endDate)){
       dates.push(currentDate.format('yyyy-MM-DD'));
       currentDate.add(1, 'days');
     }
-
     return dates;
+  }
+
+  formatDate(date: any){
+    return `${date.year.toString()}-${('00' + (date.month + 1).toString()).substr(-2)}-${('00' + date.day.toString()).substr(-2)}`;
+  }
+
+  clearForm(){
+    this.checkinDate = null;
+    this.checkoutDate = null;
+    this.modalState = false;
+    this.selectedRoom = null;
+    this.selectedRoomIndex = -1;
+    this.disabledDates = [];
   }
 
 }
