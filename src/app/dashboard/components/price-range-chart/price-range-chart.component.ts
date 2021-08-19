@@ -56,7 +56,7 @@ export class PriceRangeChartComponent implements OnInit {
 
   private generateChart(hotels: any[]) {
     const prices = hotels
-      .map(hotel => hotel.data.rooms.map((room: any) => room.price))
+      .map(hotel => hotel.data?.rooms.map((room: any) => room.price))
       .reduce((acc, val) => acc.concat(val), [])
       .sort((a: number, b: number) => a - b);
 
