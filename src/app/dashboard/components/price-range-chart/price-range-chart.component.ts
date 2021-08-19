@@ -44,6 +44,7 @@ export class PriceRangeChartComponent implements OnInit {
     this.userService.getUserRole().subscribe(role => {
       this.auth.user.subscribe(user => {
         if (user?.uid) {
+          console.log(role);
           const hotels$ = role === 'HOTEL'
             ? this.hotelService.getHotelsForUser(user.uid)
             : this.hotelService.getAllHotels();
@@ -55,8 +56,10 @@ export class PriceRangeChartComponent implements OnInit {
   }
 
   private generateChart(hotels: any[]) {
-    const prices = hotels
-      .map(hotel => hotel.data?.rooms.map((room: any) => room.price))
+    console.log(hotels)
+    const prices = hotels.map(hotel =>
+       hotel?.data?.rooms?.map((room: any) => room.price)
+      )
       .reduce((acc, val) => acc.concat(val), [])
       .sort((a: number, b: number) => a - b);
 
