@@ -80,7 +80,7 @@
     <ng-container *ngFor="let room of hotelForm.rooms; let i = index">
       <div class="hotel-room" *ngIf="i == selectedRoomIndex">
         <div class="hotel-room-remove" (click)="removeRoom(i)">
-          x
+          <i class="material-icons">close</i>
         </div>
         <div class="row">
           <div class="col">

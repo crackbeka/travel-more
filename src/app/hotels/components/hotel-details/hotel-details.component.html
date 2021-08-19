@@ -178,7 +178,7 @@
     <div class="modal-box__title">
       Book Room
     </div>
-    <label>Checkin Date</label>
+    <label style="margin-top: 20px;">checkin Date</label>
     <p-calendar [(ngModel)]="checkinDate" [disabledDates]="disabledDates" [inline]="true" [showWeek]="true">
       <ng-template pTemplate="date" let-date>
         <span [ngStyle]="{backgroundColor: checkBookedDate(date) ? 'red' : 'inherit',
@@ -188,7 +188,7 @@
         </span>
       </ng-template>
     </p-calendar>
-    <label>Checkoout Date</label>
+    <label style="margin-top: 20px;">Checkoout Date</label>
     <p-calendar [(ngModel)]="checkoutDate" [disabledDates]="disabledDates" [inline]="true" [showWeek]="true">
       <ng-template pTemplate="date" let-date>
         <span [ngStyle]="{backgroundColor: checkBookedDate(date) ? 'red' : 'inherit',
@@ -198,7 +198,7 @@
         </span>
       </ng-template>
     </p-calendar>
-    <button type="button" class="btn btn-primary" (click)="book()">Book</button>
+    <button type="button" style="margin-top: 20px; width: 100%;" class="btn btn-primary" (click)="book()">Book</button>
   </div>
   <div class="modal-background" (click)="modalState = false; selectedRoomIndex = -1">
 
