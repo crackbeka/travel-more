@@ -176,7 +176,11 @@ export class HotelListComponent implements OnInit {
 
   addRoom(){
     const newRoom = JSON.parse(JSON.stringify(this.room));
-    this.hotelForm.rooms.unshift(newRoom);
+    if(this.hotelForm.hasOwnProperty('rooms')){
+      this.hotelForm.rooms.unshift(newRoom);
+    }else{
+      this.hotelForm['rooms'] = [newRoom];
+    }
     this.selectRoom(0);
   }
 
